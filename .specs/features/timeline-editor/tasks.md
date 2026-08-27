@@ -165,10 +165,10 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] The window exposes actions for creating, editing, moving, connecting, and deleting objects.
-- [ ] Open, Save, Save As, and new-project flows use the storage component.
-- [ ] Failed loads preserve the active project and unsaved changes prompt before destructive actions.
-- [ ] Build gate passes: `python -m compileall src`.
+- [x] The window exposes actions for creating, editing, moving, connecting, and deleting objects.
+- [x] Open, Save, Save As, and new-project flows use the storage component.
+- [x] Failed loads preserve the active project and unsaved changes prompt before destructive actions.
+- [x] Build gate passes: `python -m compileall src`.
 
 **Tests**: none
 **Gate**: build
