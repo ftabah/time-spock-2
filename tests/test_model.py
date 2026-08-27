@@ -137,6 +137,19 @@ def test_removing_one_connection_preserves_endpoint_cards_and_other_connections(
     assert second_target.id in project.cards
 
 
+def test_reversing_connection_swaps_direction_without_removing_it():
+    project = Project()
+    source = project.add_card("Source")
+    target = project.add_card("Target")
+    connection = project.add_connection(source.id, target.id)
+
+    project.reverse_connection(connection.id)
+
+    assert project.connections[connection.id].source_id == target.id
+    assert project.connections[connection.id].target_id == source.id
+    assert len(project.connections) == 1
+
+
 def test_membership_requires_existing_card_and_timeline():
     project = Project()
     timeline = project.add_timeline("Main")

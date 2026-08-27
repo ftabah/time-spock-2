@@ -116,6 +116,8 @@ Story planning needs a visual way to represent events, branches, and relationshi
 2. WHEN a connection is displayed THEN the system SHALL render a visible line from source to target with an arrowhead indicating the target direction. <!-- VIEW-02 -->
 3. WHEN the user drags a card resize handle THEN the system SHALL update and display that card instance's width and height without changing its position. <!-- VIEW-04 -->
 4. WHEN the user saves a project THEN the system SHALL persist each membership's width and height and restore them when the project is loaded. <!-- VIEW-05 -->
+5. WHEN the user drags the left mouse button on empty canvas space THEN the system SHALL pan the visible canvas without moving any card. <!-- VIEW-06 -->
+6. WHEN the user chooses the reverse-direction action for a connection THEN the system SHALL swap its source and target while preserving all cards and positions. <!-- VIEW-07 -->
 
 ## Edge Cases
 
@@ -153,8 +155,10 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | VIEW-02 | P1: Refine Visual Editing | Implementing | Verified by T11 |
 | VIEW-04 | P1: Refine Visual Editing | Implementing | Verified by T10 |
 | VIEW-05 | P1: Refine Visual Editing | Implementing | Verified by T10 |
+| VIEW-06 | P1: Refine Visual Editing | Implementing | Verified by T12 |
+| VIEW-07 | P1: Refine Visual Editing | Implementing | Verified by T12 |
 
-**Coverage:** 27 total, 27 verified by implementation tasks; manual UI acceptance remains pending.
+**Coverage:** 29 total, 29 verified by implementation tasks; manual UI acceptance remains pending.
 
 ## Success Criteria
 

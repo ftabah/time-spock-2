@@ -29,7 +29,9 @@ class MainWindow(QMainWindow):
         self.scene.card_moved.connect(self._on_card_moved)
         self.scene.card_resized.connect(self._on_card_resized)
         self.scene.context_requested.connect(self._show_context_menu)
+        self.scene.connection_context_requested.connect(self._show_connection_context_menu)
         self.view = QGraphicsView(self.scene, self)
+        self.view.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
         self.setCentralWidget(self.view)
         self.setWindowTitle("Time Spock")
         self.resize(1100, 700)
@@ -88,6 +90,14 @@ class MainWindow(QMainWindow):
         add_action = menu.addAction("Criar novo cartão")
         if menu.exec(self.view.mapToGlobal(self.view.mapFromScene(scene_position))) == add_action:
             self.add_card_at(scene_position)
+
+    def _show_connection_context_menu(self, connection_id: str, scene_position) -> None:
+        menu = QMenu(self)
+        reverse_action = menu.addAction("Inverter direção da seta")
+        if menu.exec(self.view.mapToGlobal(self.view.mapFromScene(scene_position))) == reverse_action:
+            self.project.reverse_connection(connection_id)
+            self._mark_dirty()
+            self._render()
 
     def _edit_card_field(self, card_id: str, field: str) -> None:
         card = self.project.cards[card_id]

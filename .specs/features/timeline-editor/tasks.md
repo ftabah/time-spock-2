@@ -247,6 +247,31 @@ T3 -> T4 -> T5 -> T6 -> T7
 **Gate**: full
 **Commit**: `fix(timeline-editor): preserve card positions and connection paths`
 
+### T12: Add canvas pan and reverse connection direction
+
+**What**: Enable panning by dragging empty canvas space and provide a context-menu action that swaps a connection's source and target.
+**Where**: `src/time_spock/model.py`, `src/time_spock/ui/scene.py`, `src/time_spock/ui/main_window.py`, `tests/test_model.py`
+**Depends on**: T11
+**Reuses**: `Project.reverse_connection`, `ConnectionItem`, `EditorScene` context routing, and `QGraphicsView.ScrollHandDrag`.
+**Requirement**: VIEW-06, VIEW-07
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `tlc-spec-driven`
+
+**Done when**:
+
+- [x] Empty-canvas left-drag pans the view without changing card positions.
+- [x] Right-clicking a connection offers direction reversal.
+- [x] Reversing a connection swaps only its source and target.
+- [x] `tests/test_model.py` covers direction reversal.
+- [x] Full gate passes: `python -m pytest; python -m compileall src`.
+
+**Tests**: unit
+**Gate**: full
+**Commit**: `feat(timeline-editor): add canvas pan and reverse connections`
+
 ### T8: Prevent initial card overlap
 
 **What**: Choose a free default position when adding a card to a timeline and preserve the existing position behavior for moved cards.
@@ -326,7 +351,7 @@ Phase 1 -> Phase 2 -> Phase 3 -> Phase 4
 Phase 1: T1
 Phase 2: T1 -> T2 -> T3
 Phase 3: T3 -> T4 -> T5 -> T6 -> T7
-Phase 4: T5 -> T8 -> T9 -> T10 -> T11
+Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12
 ```
 
 ## Diagram-Definition Cross-Check
@@ -344,6 +369,7 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11
 | T9 | T8 | T8 -> T9 | OK |
 | T10 | T9 | T9 -> T10 | OK |
 | T11 | T10 | T10 -> T11 | OK |
+| T12 | T11 | T11 -> T12 | OK |
 
 ## Test Co-location Validation
 
@@ -360,6 +386,7 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11
 | T9 | Desktop UI | none | none | OK |
 | T10 | Domain/repository/UI | unit/integration | unit/integration | OK |
 | T11 | Domain/repository/UI | unit/integration | unit/integration | OK |
+| T12 | Domain/UI | unit | unit | OK |
 
 ## Task Granularity Check
 
@@ -376,5 +403,6 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11
 | T9 | One connection interaction | Granular |
 | T10 | One resize and persistence behavior | Granular |
 | T11 | One coordinate and connection-path correction | Granular |
+| T12 | One canvas navigation and connection-direction behavior | Granular |
 
 **Task validation verdict**: all tasks are atomic, dependencies are backward and diagram-matched, and test fields match the coverage matrix.

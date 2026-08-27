@@ -151,6 +151,12 @@ class Project:
             raise ValueError("Connection does not exist")
         del self.connections[connection_id]
 
+    def reverse_connection(self, connection_id: str) -> None:
+        connection = self.connections.get(connection_id)
+        if connection is None:
+            raise ValueError("Connection does not exist")
+        connection.source_id, connection.target_id = connection.target_id, connection.source_id
+
     def _require_card(self, card_id: str) -> Card:
         if card_id not in self.cards:
             raise ValueError("Card does not exist")

@@ -99,6 +99,7 @@ class ConnectionItem(QGraphicsPathItem):
         self.source = source
         self.target = target
         self.setZValue(1)
+        self.setFlag(QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
         self.setPen(QPen(QColor("#52616b"), 2))
         self.update_path()
 
@@ -147,6 +148,7 @@ class EditorScene(QGraphicsScene):
     card_resized = Signal(str, str, float, float)
     delete_selected = Signal()
     context_requested = Signal(str, QPointF)
+    connection_context_requested = Signal(str, QPointF)
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -200,6 +202,10 @@ class EditorScene(QGraphicsScene):
 
     def contextMenuEvent(self, event) -> None:
         item = self.itemAt(event.scenePos(), self.views()[0].transform()) if self.views() else None
+        if isinstance(item, ConnectionItem):
+            self.connection_context_requested.emit(item.connection_id, event.scenePos())
+            event.accept()
+            return
         card_id = item.card_id if isinstance(item, CardItem) else ""
         self.context_requested.emit(card_id, event.scenePos())
         event.accept()
