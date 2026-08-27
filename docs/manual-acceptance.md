@@ -17,7 +17,6 @@ python -m time_spock
 - [ ] Verify connecting cards does not change either card's position.
 - [ ] Verify the connection line is visible and has an arrowhead at the target card.
 - [ ] Move either connected card and verify the line follows it while staying attached to both borders.
-- [ ] Drag the connection handle on one card to another card and verify a directed connection is created.
 - [ ] Create a branch from one card to two target cards.
 - [ ] Drag the lower-right resize handle of a card and verify its size changes while its position remains fixed.
 - [ ] Resize a shared card in one timeline and verify the other timeline keeps its own size.

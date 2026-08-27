@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     QInputDialog,
     QMainWindow,
     QMessageBox,
+    QMenu,
 )
 
 from time_spock.model import Project
@@ -26,8 +27,8 @@ class MainWindow(QMainWindow):
         self.dirty = False
         self.scene = EditorScene(self)
         self.scene.card_moved.connect(self._on_card_moved)
-        self.scene.connection_requested.connect(self._on_connection_requested)
         self.scene.card_resized.connect(self._on_card_resized)
+        self.scene.context_requested.connect(self._show_context_menu)
         self.view = QGraphicsView(self.scene, self)
         self.setCentralWidget(self.view)
         self.setWindowTitle("Time Spock")
@@ -66,17 +67,51 @@ class MainWindow(QMainWindow):
         self.project.update_membership_position(card_id, timeline_id, x, y)
         self._mark_dirty()
 
-    def _on_connection_requested(self, source_id: str, target_id: str) -> None:
-        try:
-            self.project.add_connection(source_id, target_id)
-        except ValueError:
-            return
-        self._mark_dirty()
-        self._render()
-
     def _on_card_resized(self, card_id: str, timeline_id: str, width: float, height: float) -> None:
         self.project.update_membership_size(card_id, timeline_id, width, height)
         self._mark_dirty()
+
+    def _show_context_menu(self, card_id: str, scene_position) -> None:
+        menu = QMenu(self)
+        if card_id:
+            title_action = menu.addAction("Alterar título")
+            description_action = menu.addAction("Alterar descrição")
+            color_action = menu.addAction("Alterar cor")
+            selected = menu.exec(self.view.mapToGlobal(self.view.mapFromScene(scene_position)))
+            if selected == title_action:
+                self._edit_card_field(card_id, "title")
+            elif selected == description_action:
+                self._edit_card_field(card_id, "description")
+            elif selected == color_action:
+                self._edit_card_field(card_id, "color")
+            return
+        add_action = menu.addAction("Criar novo cartão")
+        if menu.exec(self.view.mapToGlobal(self.view.mapFromScene(scene_position))) == add_action:
+            self.add_card_at(scene_position)
+
+    def _edit_card_field(self, card_id: str, field: str) -> None:
+        card = self.project.cards[card_id]
+        if field == "title":
+            value, accepted = QInputDialog.getText(self, "Alterar título", "Título:", text=card.title)
+            if accepted and value.strip():
+                self.project.update_card(card_id, title=value)
+            else:
+                return
+        elif field == "description":
+            value, accepted = QInputDialog.getMultiLineText(
+                self, "Alterar descrição", "Descrição:", text=card.description
+            )
+            if accepted:
+                self.project.update_card(card_id, description=value)
+            else:
+                return
+        else:
+            value = QColorDialog.getColor(QColor(card.color), self, "Alterar cor")
+            if not value.isValid():
+                return
+            self.project.update_card(card_id, color=value.name())
+        self._mark_dirty()
+        self._render()
 
     def _mark_dirty(self) -> None:
         self.dirty = True
@@ -165,6 +200,18 @@ class MainWindow(QMainWindow):
             timeline = self.project.add_timeline("Main")
         x, y = self.project.next_card_position(timeline.id)
         self.project.add_membership(card.id, timeline.id, x, y)
+        self._mark_dirty()
+        self._render()
+
+    def add_card_at(self, scene_position) -> None:
+        title, accepted = QInputDialog.getText(self, "Criar cartão", "Título:")
+        if not accepted or not title.strip():
+            return
+        card = self.project.add_card(title)
+        timeline = next(iter(self.project.timelines.values()), None)
+        if timeline is None:
+            timeline = self.project.add_timeline("Main")
+        self.project.add_membership(card.id, timeline.id, scene_position.x(), scene_position.y() - 28)
         self._mark_dirty()
         self._render()
 

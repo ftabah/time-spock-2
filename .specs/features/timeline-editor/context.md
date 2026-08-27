@@ -36,7 +36,7 @@ The MVP is a local desktop editor for cards, directed connections, multiple simu
 ### Visual editing
 
 - Connections are displayed as visible lines with arrowheads.
-- A card has a visible connection handle that can be dragged to another card to create a directed connection.
+- Connection creation remains available through the existing card-selection/menu flow.
 - A card has a visible resize handle at its lower-right border.
 
 ### Agent's Discretion

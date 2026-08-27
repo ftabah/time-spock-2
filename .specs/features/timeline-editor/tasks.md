@@ -272,11 +272,11 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 ### T9: Add visible and draggable connections
 
-**What**: Render arrowheaded connection lines and add a card connection handle that creates a directed link when dropped on another card.
+**What**: Render arrowheaded connection lines while retaining the existing selection/menu flow for creating directed links.
 **Where**: `src/time_spock/ui/scene.py`, `src/time_spock/ui/main_window.py`
 **Depends on**: T8
-**Reuses**: `Connection`, `CardItem`, `EditorScene.connection_requested`, and the existing model mutation.
-**Requirement**: VIEW-02, VIEW-03
+**Reuses**: `Connection`, `CardItem`, and the existing model mutation.
+**Requirement**: VIEW-02
 
 **Tools**:
 
@@ -286,13 +286,12 @@ T3 -> T4 -> T5 -> T6 -> T7
 **Done when**:
 
 - [x] Each rendered connection has a visible arrowhead at the target end.
-- [x] Dragging a connection handle to another card emits the source and target IDs.
-- [x] The controller creates the requested directed connection and refreshes the scene.
+- [x] The selection/menu flow creates the requested directed connection and refreshes the scene.
 - [x] Build gate passes: `python -m compileall src`.
 
 **Tests**: none
 **Gate**: build
-**Commit**: `feat(timeline-editor): add direct connection dragging`
+**Commit**: `feat(timeline-editor): add visible connection arrows`
 
 ### T10: Add resizable card memberships
 

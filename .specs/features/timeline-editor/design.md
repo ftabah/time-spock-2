@@ -81,7 +81,7 @@ The file includes a schema version and separate arrays for cards, timelines, mem
 - **Dependencies**: PySide6 and the project model's read interface.
 - **Reuses**: `QGraphicsScene` and `QGraphicsView`.
 
-Each timeline is rendered as a named horizontal region. A card membership renders one visual card instance, so a shared card appears in more than one region while retaining one model ID. New card placement searches a small grid for the first position that does not fully overlap an existing card. Connection paths are redrawn from the current positions of their endpoint instances and finish with an arrowhead. A connection handle on each card starts a drag gesture; dropping on another card emits a connection request. A resize handle changes the membership's width and height while preserving its position. If an endpoint has multiple memberships, the scene chooses the visible instance pair deterministically during rendering; the model connection remains global.
+Each timeline is rendered as a named horizontal region. A card membership renders one visual card instance, so a shared card appears in more than one region while retaining one model ID. New card placement searches a small grid for the first position that does not fully overlap an existing card. Connection paths are redrawn from the current positions of their endpoint instances and finish with an arrowhead. A resize handle changes the membership's width and height while preserving its position. If an endpoint has multiple memberships, the scene chooses the visible instance pair deterministically during rendering; the model connection remains global.
 
 ### Main Window and Controller
 

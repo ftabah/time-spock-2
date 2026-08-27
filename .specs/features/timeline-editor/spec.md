@@ -18,6 +18,7 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | Cloud storage and synchronization | No remote backend is required for the first increment. |
 | Automatic chronological validation | Visual position communicates order; the graph has no enforced logical ordering. |
 | Collaborative editing | Concurrency between users is outside the MVP. |
+| Connection creation by dragging from a card handle | The MVP keeps connection creation in the existing selection/menu flow. |
 
 ---
 
@@ -113,9 +114,8 @@ Story planning needs a visual way to represent events, branches, and relationshi
 
 1. WHEN the user creates a card THEN the system SHALL place it at a position that does not fully overlap any existing card in the same timeline. <!-- VIEW-01 -->
 2. WHEN a connection is displayed THEN the system SHALL render a visible line from source to target with an arrowhead indicating the target direction. <!-- VIEW-02 -->
-3. WHEN the user drags the connection handle of a card to another card THEN the system SHALL create a directed connection from the source card to the target card. <!-- VIEW-03 -->
-4. WHEN the user drags a card resize handle THEN the system SHALL update and display that card instance's width and height without changing its position. <!-- VIEW-04 -->
-5. WHEN the user saves a project THEN the system SHALL persist each membership's width and height and restore them when the project is loaded. <!-- VIEW-05 -->
+3. WHEN the user drags a card resize handle THEN the system SHALL update and display that card instance's width and height without changing its position. <!-- VIEW-04 -->
+4. WHEN the user saves a project THEN the system SHALL persist each membership's width and height and restore them when the project is loaded. <!-- VIEW-05 -->
 
 ## Edge Cases
 
@@ -151,7 +151,6 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | FILE-05 | P1: Save and Load Projects | Implementing | Verified by T3 |
 | VIEW-01 | P1: Refine Visual Editing | Implementing | Verified by T11 |
 | VIEW-02 | P1: Refine Visual Editing | Implementing | Verified by T11 |
-| VIEW-03 | P1: Refine Visual Editing | Implementing | Verified by T9 |
 | VIEW-04 | P1: Refine Visual Editing | Implementing | Verified by T10 |
 | VIEW-05 | P1: Refine Visual Editing | Implementing | Verified by T10 |
 

@@ -16,7 +16,6 @@ TIMELINE_HEIGHT = 180.0
 
 class CardItem(QGraphicsObject):
     moved = Signal(str, str, float, float)
-    connection_requested = Signal(str, str)
     resized = Signal(str, str, float, float)
 
     def __init__(
@@ -30,7 +29,6 @@ class CardItem(QGraphicsObject):
         self.card_id = card.id
         self.timeline_id = membership.timeline_id
         self.card = card
-        self.connection_dragging = False
         self.resize_dragging = False
         self.width = membership.width
         self.height = membership.height
@@ -56,8 +54,6 @@ class CardItem(QGraphicsObject):
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop,
             self.card.description,
         )
-        painter.setBrush(QBrush(QColor("#24313a")))
-        painter.drawEllipse(QRectF(self.width - 14, self.height / 2 - 6, 12, 12))
         painter.setBrush(QBrush(QColor("#52616b")))
         painter.drawRect(QRectF(self.width - 10, self.height - 10, 8, 8))
 
@@ -72,10 +68,6 @@ class CardItem(QGraphicsObject):
             self.resize_dragging = True
             self.resize_origin = event.scenePos()
             self.resize_size = (self.width, self.height)
-            event.accept()
-            return
-        if QRectF(self.width - 24, self.height / 2 - 16, 24, 32).contains(event.pos()):
-            self.connection_dragging = True
             event.accept()
             return
         super().mousePressEvent(event)
@@ -95,13 +87,6 @@ class CardItem(QGraphicsObject):
     def mouseReleaseEvent(self, event) -> None:
         if self.resize_dragging:
             self.resize_dragging = False
-            event.accept()
-            return
-        if self.connection_dragging:
-            self.connection_dragging = False
-            target = self.scene().itemAt(event.scenePos(), self.scene().views()[0].transform())
-            if isinstance(target, CardItem) and target.card_id != self.card_id:
-                self.connection_requested.emit(self.card_id, target.card_id)
             event.accept()
             return
         super().mouseReleaseEvent(event)
@@ -160,8 +145,8 @@ class ConnectionItem(QGraphicsPathItem):
 class EditorScene(QGraphicsScene):
     card_moved = Signal(str, str, float, float)
     card_resized = Signal(str, str, float, float)
-    connection_requested = Signal(str, str)
     delete_selected = Signal()
+    context_requested = Signal(str, QPointF)
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -192,8 +177,8 @@ class EditorScene(QGraphicsScene):
             item = CardItem(card, membership, y_offset + 28)
             item.moved.connect(self.card_moved)
             item.moved.connect(self._refresh_connections)
-            item.connection_requested.connect(self.connection_requested)
             item.resized.connect(self.card_resized)
+            item.resized.connect(self._refresh_connections)
             self.addItem(item)
             self.card_items[(card.id, timeline.id)] = item
 
@@ -212,3 +197,9 @@ class EditorScene(QGraphicsScene):
         if event.key() == Qt.Key.Key_Delete:
             self.delete_selected.emit()
         super().keyPressEvent(event)
+
+    def contextMenuEvent(self, event) -> None:
+        item = self.itemAt(event.scenePos(), self.views()[0].transform()) if self.views() else None
+        card_id = item.card_id if isinstance(item, CardItem) else ""
+        self.context_requested.emit(card_id, event.scenePos())
+        event.accept()
