@@ -189,9 +189,10 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] `python -m time_spock` starts the desktop application.
-- [ ] The application creates exactly one main window and returns the Qt event-loop status.
-- [ ] Full gate passes: `python -m pytest; python -m compileall src`.
+- [x] `python -m time_spock` starts the desktop application.
+- [x] `src/time_spock/__main__.py` delegates package execution to `main()`.
+- [x] The application creates exactly one main window and returns the Qt event-loop status.
+- [x] Full gate passes: `python -m pytest; python -m compileall src`.
 
 **Tests**: none
 **Gate**: full
