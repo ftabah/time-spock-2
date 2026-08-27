@@ -24,6 +24,8 @@ class Membership:
     timeline_id: str
     x: float
     y: float
+    width: float = 180
+    height: float = 100
 
 
 @dataclass
@@ -82,10 +84,18 @@ class Project:
         self.timelines[timeline.id] = timeline
         return timeline
 
-    def add_membership(self, card_id: str, timeline_id: str, x: float, y: float) -> Membership:
+    def add_membership(
+        self,
+        card_id: str,
+        timeline_id: str,
+        x: float,
+        y: float,
+        width: float = 180,
+        height: float = 100,
+    ) -> Membership:
         self._require_card(card_id)
         self._require_timeline(timeline_id)
-        membership = Membership(card_id, timeline_id, x, y)
+        membership = Membership(card_id, timeline_id, x, y, max(100, width), max(70, height))
         self.memberships.append(membership)
         return membership
 
@@ -118,6 +128,14 @@ class Project:
             if membership.card_id == card_id and membership.timeline_id == timeline_id:
                 membership.x = x
                 membership.y = y
+                return
+        raise ValueError("Membership does not exist")
+
+    def update_membership_size(self, card_id: str, timeline_id: str, width: float, height: float) -> None:
+        for membership in self.memberships:
+            if membership.card_id == card_id and membership.timeline_id == timeline_id:
+                membership.width = max(100, width)
+                membership.height = max(70, height)
                 return
         raise ValueError("Membership does not exist")
 

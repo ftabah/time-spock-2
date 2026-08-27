@@ -28,6 +28,11 @@ def test_save_and_load_preserves_complete_project(tmp_path):
         (shared.id, second.id, 300, 400),
         (target.id, second.id, 500, 600),
     }
+    assert {(item.card_id, item.timeline_id, item.width, item.height) for item in loaded.memberships} == {
+        (shared.id, first.id, 180, 100),
+        (shared.id, second.id, 180, 100),
+        (target.id, second.id, 180, 100),
+    }
     assert loaded.connections[connection.id].source_id == shared.id
     assert loaded.connections[connection.id].target_id == target.id
     assert json.loads(path.read_text(encoding="utf-8"))["schema_version"] == 1
@@ -81,3 +86,17 @@ def test_invalid_references_are_rejected_without_returning_partial_project(tmp_p
 
     with pytest.raises(ProjectFileError, match="membership references"):
         ProjectStore.load(path)
+
+
+def test_save_and_load_preserves_custom_membership_dimensions(tmp_path):
+    project = Project()
+    card = project.add_card("Wide")
+    timeline = project.add_timeline("Main")
+    project.add_membership(card.id, timeline.id, 10, 20, 320, 180)
+    path = tmp_path / "sized.json"
+
+    ProjectStore.save(project, path)
+    loaded = ProjectStore.load(path)
+
+    membership = loaded.memberships[0]
+    assert (membership.x, membership.y, membership.width, membership.height) == (10, 20, 320, 180)

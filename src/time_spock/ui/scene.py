@@ -17,6 +17,7 @@ TIMELINE_HEIGHT = 180.0
 class CardItem(QGraphicsObject):
     moved = Signal(str, str, float, float)
     connection_requested = Signal(str, str)
+    resized = Signal(str, str, float, float)
 
     def __init__(self, card: Card, membership: Membership, parent: QGraphicsItem | None = None) -> None:
         super().__init__(parent)
@@ -24,6 +25,9 @@ class CardItem(QGraphicsObject):
         self.timeline_id = membership.timeline_id
         self.card = card
         self.connection_dragging = False
+        self.resize_dragging = False
+        self.width = membership.width
+        self.height = membership.height
         self.setPos(membership.x, membership.y)
         self.setFlags(
             QGraphicsItem.GraphicsItemFlag.ItemIsMovable
@@ -31,21 +35,23 @@ class CardItem(QGraphicsObject):
         )
 
     def boundingRect(self) -> QRectF:
-        return QRectF(0, 0, CARD_WIDTH, CARD_HEIGHT)
+        return QRectF(0, 0, self.width, self.height)
 
     def paint(self, painter: QPainter, option, widget=None) -> None:
         painter.setBrush(QBrush(QColor(self.card.color)))
         painter.setPen(QPen(QColor("#24313a"), 2 if self.isSelected() else 1))
         painter.drawRoundedRect(self.boundingRect(), 8, 8)
         painter.setPen(QPen(QColor("#172026")))
-        painter.drawText(QRectF(12, 12, CARD_WIDTH - 24, 28), Qt.AlignmentFlag.AlignLeft, self.card.title)
+        painter.drawText(QRectF(12, 12, self.width - 24, 28), Qt.AlignmentFlag.AlignLeft, self.card.title)
         painter.drawText(
-            QRectF(12, 42, CARD_WIDTH - 24, CARD_HEIGHT - 54),
+            QRectF(12, 42, self.width - 24, self.height - 54),
             Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop,
             self.card.description,
         )
         painter.setBrush(QBrush(QColor("#24313a")))
-        painter.drawEllipse(QRectF(CARD_WIDTH - 14, CARD_HEIGHT / 2 - 6, 12, 12))
+        painter.drawEllipse(QRectF(self.width - 14, self.height / 2 - 6, 12, 12))
+        painter.setBrush(QBrush(QColor("#52616b")))
+        painter.drawRect(QRectF(self.width - 10, self.height - 10, 8, 8))
 
     def itemChange(self, change, value):
         if change == QGraphicsItem.GraphicsItemChange.ItemPositionHasChanged:
@@ -54,13 +60,35 @@ class CardItem(QGraphicsObject):
         return super().itemChange(change, value)
 
     def mousePressEvent(self, event) -> None:
-        if QRectF(CARD_WIDTH - 24, CARD_HEIGHT / 2 - 16, 24, 32).contains(event.pos()):
+        if QRectF(self.width - 20, self.height - 20, 20, 20).contains(event.pos()):
+            self.resize_dragging = True
+            self.resize_origin = event.scenePos()
+            self.resize_size = (self.width, self.height)
+            event.accept()
+            return
+        if QRectF(self.width - 24, self.height / 2 - 16, 24, 32).contains(event.pos()):
             self.connection_dragging = True
             event.accept()
             return
         super().mousePressEvent(event)
 
+    def mouseMoveEvent(self, event) -> None:
+        if self.resize_dragging:
+            delta = event.scenePos() - self.resize_origin
+            self.prepareGeometryChange()
+            self.width = max(100, self.resize_size[0] + delta.x())
+            self.height = max(70, self.resize_size[1] + delta.y())
+            self.resized.emit(self.card_id, self.timeline_id, self.width, self.height)
+            self.update()
+            event.accept()
+            return
+        super().mouseMoveEvent(event)
+
     def mouseReleaseEvent(self, event) -> None:
+        if self.resize_dragging:
+            self.resize_dragging = False
+            event.accept()
+            return
         if self.connection_dragging:
             self.connection_dragging = False
             target = self.scene().itemAt(event.scenePos(), self.scene().views()[0].transform())
@@ -108,6 +136,7 @@ class ConnectionItem(QGraphicsPathItem):
 
 class EditorScene(QGraphicsScene):
     card_moved = Signal(str, str, float, float)
+    card_resized = Signal(str, str, float, float)
     connection_requested = Signal(str, str)
     delete_selected = Signal()
 
@@ -137,17 +166,26 @@ class EditorScene(QGraphicsScene):
         self.addRect(0, y_offset, 1600, TIMELINE_HEIGHT, QPen(QColor("#b7c4c9")))
         for membership in self._memberships_for(timeline.id):
             card = self.project.cards[membership.card_id]
-            adjusted = Membership(card.id, timeline.id, membership.x, membership.y + y_offset + 28)
+            adjusted = Membership(
+                card.id,
+                timeline.id,
+                membership.x,
+                membership.y + y_offset + 28,
+                membership.width,
+                membership.height,
+            )
             item = CardItem(card, adjusted)
             item.moved.connect(self.card_moved)
             item.moved.connect(self._refresh_connections)
             item.connection_requested.connect(self.connection_requested)
+            item.resized.connect(self.card_resized)
             self.addItem(item)
             self.card_items[(card.id, timeline.id)] = item
 
     def _refresh_connections(self, *_args) -> None:
         for item in self.connection_items.values():
             item.update_path()
+
 
     def _memberships_for(self, timeline_id: str) -> list[Membership]:
         return [membership for membership in self.project.memberships if membership.timeline_id == timeline_id]

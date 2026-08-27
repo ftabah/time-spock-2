@@ -14,9 +14,9 @@
 
 - **Feature**: timeline-editor
 - **Phase / Task**: Execute / T7 - manual MVP acceptance
-- **Completed**: T1-T6; 14 automated tests passing; compileall passing
-- **In-progress**: `docs/manual-acceptance.md` - waiting for visual workflow confirmation
+- **Completed**: T1-T6, T8-T10; 17 automated tests passing; compileall passing
+- **In-progress**: `docs/manual-acceptance.md` - waiting for visual workflow confirmation after visual-editing improvements
 - **Next step**: Run the manual checklist, record its result, then commit T7 and run independent feature validation.
 - **Blockers**: User visual acceptance is required for GUI behavior.
-- **Uncommitted files**: `.specs/STATE.md`, `.specs/features/timeline-editor/spec.md`, `.specs/features/timeline-editor/context.md`, `.specs/features/timeline-editor/design.md`, `docs/manual-acceptance.md`
+- **Uncommitted files**: `.specs/STATE.md`, `.specs/features/timeline-editor/spec.md`, `.specs/features/timeline-editor/context.md`, `.specs/features/timeline-editor/design.md`, `.specs/features/timeline-editor/tasks.md`, `docs/manual-acceptance.md`
 - **Branch**: main

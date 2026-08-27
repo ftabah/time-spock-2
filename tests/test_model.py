@@ -147,3 +147,18 @@ def test_membership_requires_existing_card_and_timeline():
         project.add_membership(project.add_card("Event").id, "missing", 0, 0)
 
     assert project.memberships == []
+
+
+def test_membership_size_changes_without_changing_position_and_respects_minimums():
+    project = Project()
+    card = project.add_card("Resizable")
+    timeline = project.add_timeline("Main")
+    membership = project.add_membership(card.id, timeline.id, 25, 35)
+
+    project.update_membership_size(card.id, timeline.id, 260, 150)
+
+    assert (membership.x, membership.y) == (25, 35)
+    assert (membership.width, membership.height) == (260, 150)
+
+    project.update_membership_size(card.id, timeline.id, 1, 1)
+    assert (membership.width, membership.height) == (100, 70)

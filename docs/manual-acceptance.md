@@ -14,7 +14,11 @@ python -m time_spock
 - [ ] Add a card with a title, description, and custom color.
 - [ ] Add another card and move both cards to different positions.
 - [ ] Select two cards and create a directed connection.
+- [ ] Verify the connection line is visible and has an arrowhead at the target card.
+- [ ] Drag the connection handle on one card to another card and verify a directed connection is created.
 - [ ] Create a branch from one card to two target cards.
+- [ ] Drag the lower-right resize handle of a card and verify its size changes while its position remains fixed.
+- [ ] Resize a shared card in one timeline and verify the other timeline keeps its own size.
 - [ ] Place one card in both timelines and verify it remains one shared card in the saved data.
 - [ ] Remove one card from one timeline and verify its other membership remains.
 - [ ] Delete one connection and verify both cards remain.

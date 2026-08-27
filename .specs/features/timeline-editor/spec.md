@@ -152,10 +152,10 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | VIEW-01 | P1: Refine Visual Editing | Implementing | Verified by T8 |
 | VIEW-02 | P1: Refine Visual Editing | Implementing | Verified by T9 |
 | VIEW-03 | P1: Refine Visual Editing | Implementing | Verified by T9 |
-| VIEW-04 | P1: Refine Visual Editing | Tasks | Pending |
-| VIEW-05 | P1: Refine Visual Editing | Tasks | Pending |
+| VIEW-04 | P1: Refine Visual Editing | Implementing | Verified by T10 |
+| VIEW-05 | P1: Refine Visual Editing | Implementing | Verified by T10 |
 
-**Coverage:** 27 total, 22 verified by prior tasks, 5 pending visual-editing tasks.
+**Coverage:** 27 total, 27 verified by implementation tasks; manual UI acceptance remains pending.
 
 ## Success Criteria
 

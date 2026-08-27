@@ -283,11 +283,11 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] A resize gesture changes width and height without changing x and y.
-- [ ] Width and height are independent for memberships of a shared card.
-- [ ] JSON round-trip preserves membership dimensions.
-- [ ] `tests/test_model.py` and `tests/test_storage.py` cover the new dimension behavior and edge cases.
-- [ ] Full gate passes: `python -m pytest; python -m compileall src`.
+- [x] A resize gesture changes width and height without changing x and y.
+- [x] Width and height are independent for memberships of a shared card.
+- [x] JSON round-trip preserves membership dimensions.
+- [x] `tests/test_model.py` and `tests/test_storage.py` cover the new dimension behavior and edge cases.
+- [x] Full gate passes: `python -m pytest; python -m compileall src`.
 
 **Tests**: unit/integration
 **Gate**: full

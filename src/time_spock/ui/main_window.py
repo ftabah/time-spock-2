@@ -27,6 +27,7 @@ class MainWindow(QMainWindow):
         self.scene = EditorScene(self)
         self.scene.card_moved.connect(self._on_card_moved)
         self.scene.connection_requested.connect(self._on_connection_requested)
+        self.scene.card_resized.connect(self._on_card_resized)
         self.view = QGraphicsView(self.scene, self)
         self.setCentralWidget(self.view)
         self.setWindowTitle("Time Spock")
@@ -72,6 +73,10 @@ class MainWindow(QMainWindow):
             return
         self._mark_dirty()
         self._render()
+
+    def _on_card_resized(self, card_id: str, timeline_id: str, width: float, height: float) -> None:
+        self.project.update_membership_size(card_id, timeline_id, width, height)
+        self._mark_dirty()
 
     def _mark_dirty(self) -> None:
         self.dirty = True
