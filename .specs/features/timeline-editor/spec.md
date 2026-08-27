@@ -120,6 +120,7 @@ Story planning needs a visual way to represent events, branches, and relationshi
 6. WHEN the user chooses the reverse-direction action for a connection THEN the system SHALL swap its source and target while preserving all cards and positions. <!-- VIEW-07 -->
 7. WHEN the user clicks near a visible connection THEN the system SHALL select that connection within an interactive area wider than its visual stroke. <!-- VIEW-08 -->
 8. WHEN the user chooses the remove-connection action from a connection context menu THEN the system SHALL remove only that connection and preserve both endpoint cards. <!-- VIEW-09 -->
+9. WHEN the user holds `Ctrl` and rotates the mouse wheel THEN the system SHALL zoom the canvas around the cursor within the range 0.35x to 2.5x. <!-- VIEW-10 -->
 
 ## Edge Cases
 
@@ -161,8 +162,9 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | VIEW-07 | P1: Refine Visual Editing | Implementing | Verified by T12 |
 | VIEW-08 | P1: Refine Visual Editing | Implementing | Verified by T13 |
 | VIEW-09 | P1: Refine Visual Editing | Implementing | Verified by T13 |
+| VIEW-10 | P1: Refine Visual Editing | Implementing | Verified by T14 |
 
-**Coverage:** 31 total, 31 verified by implementation tasks; manual UI acceptance remains pending.
+**Coverage:** 32 total, 32 verified by implementation tasks; manual UI acceptance remains pending.
 
 ## Success Criteria
 

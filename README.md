@@ -11,6 +11,7 @@ Time Spock é uma ferramenta desktop para planejar histórias visualmente. O usu
 - Criar e visualizar múltiplas timelines.
 - Usar o mesmo cartão em mais de uma timeline.
 - Mover a área de trabalho arrastando o fundo.
+- Aproximar ou afastar a visualização segurando `Ctrl` e usando a roda do mouse.
 - Salvar e abrir projetos em arquivos JSON locais.
 - Executar como um único arquivo `.exe` no Windows.
 
@@ -77,6 +78,7 @@ O resultado será escrito em `dist\TimeSpock.exe`.
 
 - **Botão esquerdo em um cartão:** selecionar e mover.
 - **Botão esquerdo no fundo:** mover a área de trabalho.
+- **`Ctrl` + roda do mouse:** aproximar ou afastar a visualização.
 - **Botão direito em um cartão:** alterar título, descrição ou cor.
 - **Botão direito no fundo:** criar um cartão.
 - **Selecionar dois cartões:** usar `Edit > Connect Selected Cards` para criar uma conexão.

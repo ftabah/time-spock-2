@@ -26,6 +26,7 @@ To rebuild it after source changes:
 - [ ] Verify the connection line is visible and has an arrowhead at the target card.
 - [ ] Move either connected card and verify the line follows it while staying attached to both borders.
 - [ ] Drag the left mouse button on empty white canvas space and verify the canvas pans without moving cards.
+- [ ] Hold `Ctrl` and scroll up/down with the mouse wheel; verify the canvas zooms in/out around the cursor.
 - [ ] Right-click a connection and choose `Inverter direção da seta`; verify the arrow points to the other card.
 - [ ] Right-click near, but not directly on, a connection and verify the connection menu opens.
 - [ ] Choose `Remover conexão` and verify only the line disappears while both cards remain.

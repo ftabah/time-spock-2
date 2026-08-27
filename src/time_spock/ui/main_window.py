@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction, QColor
 from PySide6.QtWidgets import (
     QColorDialog,
@@ -18,6 +19,30 @@ from time_spock.storage import ProjectFileError, ProjectStore
 from time_spock.ui.scene import CardItem, ConnectionItem, EditorScene
 
 
+class CanvasView(QGraphicsView):
+    def __init__(self, scene, parent=None) -> None:
+        super().__init__(scene, parent)
+        self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
+        self.zoom_level = 1.0
+
+    def wheelEvent(self, event) -> None:
+        if event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+            factor = 1.15 if event.angleDelta().y() > 0 else 1 / 1.15
+            self.zoom_at(factor, event.position().toPoint())
+            event.accept()
+            return
+        super().wheelEvent(event)
+
+    def zoom_at(self, factor: float, viewport_position) -> None:
+        next_level = max(0.35, min(2.5, self.zoom_level * factor))
+        factor = next_level / self.zoom_level
+        scene_position = self.mapToScene(viewport_position)
+        self.scale(factor, factor)
+        self.zoom_level = next_level
+        new_scene_position = self.mapToScene(viewport_position)
+        self.translate(new_scene_position.x() - scene_position.x(), new_scene_position.y() - scene_position.y())
+
+
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -30,8 +55,7 @@ class MainWindow(QMainWindow):
         self.scene.card_resized.connect(self._on_card_resized)
         self.scene.context_requested.connect(self._show_context_menu)
         self.scene.connection_context_requested.connect(self._show_connection_context_menu)
-        self.view = QGraphicsView(self.scene, self)
-        self.view.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
+        self.view = CanvasView(self.scene, self)
         self.setCentralWidget(self.view)
         self.setWindowTitle("Time Spock")
         self.resize(1100, 700)

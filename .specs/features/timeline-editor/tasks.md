@@ -297,6 +297,30 @@ T3 -> T4 -> T5 -> T6 -> T7
 **Gate**: full
 **Commit**: `fix(timeline-editor): improve connection selection and removal`
 
+### T14: Add Ctrl-wheel canvas zoom
+
+**What**: Add cursor-centered zoom and zoom-out to the graphics view when the user holds `Ctrl` and uses the mouse wheel.
+**Where**: `src/time_spock/ui/main_window.py`, `tests/test_view.py`
+**Depends on**: T13
+**Reuses**: `QGraphicsView`, existing canvas pan mode, and the PySide6 viewport transform.
+**Requirement**: VIEW-10
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `tlc-spec-driven`
+
+**Done when**:
+
+- [x] `Ctrl` plus mouse-wheel movement zooms in and out around the cursor.
+- [x] Zoom remains between `0.35x` and `2.5x`.
+- [x] `tests/test_view.py` covers zoom in, zoom out, and both limits.
+- [x] Full gate passes: `python -m pytest; python -m compileall src`.
+
+**Tests**: unit
+**Gate**: full
+**Commit**: `feat(timeline-editor): add ctrl wheel canvas zoom`
+
 ### T8: Prevent initial card overlap
 
 **What**: Choose a free default position when adding a card to a timeline and preserve the existing position behavior for moved cards.
@@ -376,7 +400,7 @@ Phase 1 -> Phase 2 -> Phase 3 -> Phase 4
 Phase 1: T1
 Phase 2: T1 -> T2 -> T3
 Phase 3: T3 -> T4 -> T5 -> T6 -> T7
-Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12 -> T13
+Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12 -> T13 -> T14
 ```
 
 ## Diagram-Definition Cross-Check
@@ -396,6 +420,7 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12 -> T13
 | T11 | T10 | T10 -> T11 | OK |
 | T12 | T11 | T11 -> T12 | OK |
 | T13 | T12 | T12 -> T13 | OK |
+| T14 | T13 | T13 -> T14 | OK |
 
 ## Test Co-location Validation
 
@@ -414,6 +439,7 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12 -> T13
 | T11 | Domain/repository/UI | unit/integration | unit/integration | OK |
 | T12 | Domain/UI | unit | unit | OK |
 | T13 | Domain/UI | unit | unit | OK |
+| T14 | Desktop UI | unit | unit | OK |
 
 ## Task Granularity Check
 
@@ -432,5 +458,6 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12 -> T13
 | T11 | One coordinate and connection-path correction | Granular |
 | T12 | One canvas navigation and connection-direction behavior | Granular |
 | T13 | One connection selection and removal behavior | Granular |
+| T14 | One canvas zoom behavior | Granular |
 
 **Task validation verdict**: all tasks are atomic, dependencies are backward and diagram-matched, and test fields match the coverage matrix.
