@@ -115,11 +115,11 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] Save writes cards, timelines, memberships, positions, connections, and schema version.
-- [ ] Load reconstructs a valid project with the same values and relationships.
-- [ ] Malformed, missing, or incompatible files raise a controlled application error before active state replacement.
-- [ ] `tests/test_storage.py` covers round-trip, empty project, malformed input, incompatible input, and failed-load preservation.
-- [ ] Quick gate passes: `python -m pytest`.
+- [x] Save writes cards, timelines, memberships, positions, connections, and schema version.
+- [x] Load reconstructs a valid project with the same values and relationships.
+- [x] Malformed, missing, or incompatible files raise a controlled application error before active state replacement.
+- [x] `tests/test_storage.py` covers round-trip, empty project, malformed input, incompatible input, and failed-load preservation.
+- [x] Quick gate passes: `python -m pytest`.
 
 **Tests**: integration
 **Gate**: quick
