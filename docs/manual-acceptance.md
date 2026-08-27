@@ -7,6 +7,14 @@ $env:PYTHONPATH = "src"
 python -m time_spock
 ```
 
+To run the distributable Windows executable, open `dist\TimeSpock.exe`. It includes Python, PySide6, and the application code.
+
+To rebuild it after source changes:
+
+```powershell
+.\scripts\build_windows.ps1
+```
+
 ## Checklist
 
 - [ ] The application opens with a visible editor window.
