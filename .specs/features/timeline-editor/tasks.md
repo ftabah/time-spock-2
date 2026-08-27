@@ -259,10 +259,10 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] Each rendered connection has a visible arrowhead at the target end.
-- [ ] Dragging a connection handle to another card emits the source and target IDs.
-- [ ] The controller creates the requested directed connection and refreshes the scene.
-- [ ] Build gate passes: `python -m compileall src`.
+- [x] Each rendered connection has a visible arrowhead at the target end.
+- [x] Dragging a connection handle to another card emits the source and target IDs.
+- [x] The controller creates the requested directed connection and refreshes the scene.
+- [x] Build gate passes: `python -m compileall src`.
 
 **Tests**: none
 **Gate**: build

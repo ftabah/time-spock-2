@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         self.dirty = False
         self.scene = EditorScene(self)
         self.scene.card_moved.connect(self._on_card_moved)
+        self.scene.connection_requested.connect(self._on_connection_requested)
         self.view = QGraphicsView(self.scene, self)
         self.setCentralWidget(self.view)
         self.setWindowTitle("Time Spock")
@@ -63,6 +64,14 @@ class MainWindow(QMainWindow):
     def _on_card_moved(self, card_id: str, timeline_id: str, x: float, y: float) -> None:
         self.project.update_membership_position(card_id, timeline_id, x, y - 28)
         self._mark_dirty()
+
+    def _on_connection_requested(self, source_id: str, target_id: str) -> None:
+        try:
+            self.project.add_connection(source_id, target_id)
+        except ValueError:
+            return
+        self._mark_dirty()
+        self._render()
 
     def _mark_dirty(self) -> None:
         self.dirty = True
