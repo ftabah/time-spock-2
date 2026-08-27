@@ -124,9 +124,9 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | LINK-02 | P1: Represent Branching Relationships | Implementing | Verified by T2 |
 | LINK-03 | P1: Represent Branching Relationships | Implementing | Verified by T2 |
 | LINK-04 | P1: Represent Branching Relationships | Implementing | Verified by T2 |
-| LINK-05 | P1: Represent Branching Relationships | Design | Pending |
+| LINK-05 | P1: Represent Branching Relationships | Implementing | Verified by T4 |
 | LANE-01 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |
-| LANE-02 | P1: Work With Multiple Timelines | Design | Pending |
+| LANE-02 | P1: Work With Multiple Timelines | Implementing | Verified by T4 |
 | LANE-03 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |
 | LANE-04 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |
 | LANE-05 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |

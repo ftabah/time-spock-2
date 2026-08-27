@@ -140,11 +140,11 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] The scene renders named timeline regions and one visual instance per membership.
-- [ ] Cards can be moved and emit their updated membership position.
-- [ ] Directed connections are rendered between valid endpoint instances and remain selectable.
-- [ ] Shared cards render in each timeline without changing their model identifier.
-- [ ] Build gate passes: `python -m compileall src`.
+- [x] The scene renders named timeline regions and one visual instance per membership.
+- [x] Cards can be moved and emit their updated membership position.
+- [x] Directed connections are rendered between valid endpoint instances and remain selectable.
+- [x] Shared cards render in each timeline without changing their model identifier.
+- [x] Build gate passes: `python -m compileall src`.
 
 **Tests**: none
 **Gate**: build
