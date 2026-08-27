@@ -55,7 +55,7 @@ The model is the source of truth. Graphics items do not own persistent data. A r
 - **Dependencies**: Python dataclasses and UUID generation.
 - **Reuses**: None; it is the new domain boundary.
 
-Cards are stored once by card ID. Timeline memberships store the card ID, timeline ID, and a position. Connections store their own ID plus source and target card IDs. Deleting a card removes memberships for that card and connections whose source or target matches it.
+Cards are stored once by card ID. Timeline memberships store the card ID, timeline ID, position, width, and height. Connections store their own ID plus source and target card IDs. Deleting a card removes memberships for that card and connections whose source or target matches it.
 
 ### Project Store
 
@@ -81,7 +81,7 @@ The file includes a schema version and separate arrays for cards, timelines, mem
 - **Dependencies**: PySide6 and the project model's read interface.
 - **Reuses**: `QGraphicsScene` and `QGraphicsView`.
 
-Each timeline is rendered as a named horizontal region. A card membership renders one visual card instance, so a shared card appears in more than one region while retaining one model ID. Connection paths are redrawn from the current positions of their endpoint instances. If an endpoint has multiple memberships, the scene chooses the visible instance pair deterministically during rendering; the model connection remains global.
+Each timeline is rendered as a named horizontal region. A card membership renders one visual card instance, so a shared card appears in more than one region while retaining one model ID. New card placement searches a small grid for the first position that does not fully overlap an existing card. Connection paths are redrawn from the current positions of their endpoint instances and finish with an arrowhead. A connection handle on each card starts a drag gesture; dropping on another card emits a connection request. A resize handle changes the membership's width and height while preserving its position. If an endpoint has multiple memberships, the scene chooses the visible instance pair deterministically during rendering; the model connection remains global.
 
 ### Main Window and Controller
 
@@ -127,6 +127,8 @@ class Membership:
     timeline_id: str
     x: float
     y: float
+  width: float
+  height: float
 
 @dataclass
 class Connection:

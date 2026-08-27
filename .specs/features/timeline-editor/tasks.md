@@ -221,14 +221,87 @@ T3 -> T4 -> T5 -> T6 -> T7
 **Gate**: build
 **Commit**: `test(timeline-editor): add manual mvp acceptance checklist`
 
+### T8: Prevent initial card overlap
+
+**What**: Choose a free default position when adding a card to a timeline and preserve the existing position behavior for moved cards.
+**Where**: `src/time_spock/ui/main_window.py`, `src/time_spock/model.py`
+**Depends on**: T5
+**Reuses**: Project memberships and the existing add-card flow.
+**Requirement**: VIEW-01
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `tlc-spec-driven`
+
+**Done when**:
+
+- [ ] A newly created card does not fully overlap an existing card in its timeline.
+- [ ] Existing card positions remain unchanged when a new card is created.
+- [ ] Quick gate passes: `python -m pytest`.
+
+**Tests**: unit
+**Gate**: quick
+**Commit**: `fix(timeline-editor): avoid overlapping new cards`
+
+### T9: Add visible and draggable connections
+
+**What**: Render arrowheaded connection lines and add a card connection handle that creates a directed link when dropped on another card.
+**Where**: `src/time_spock/ui/scene.py`, `src/time_spock/ui/main_window.py`
+**Depends on**: T8
+**Reuses**: `Connection`, `CardItem`, `EditorScene.connection_requested`, and the existing model mutation.
+**Requirement**: VIEW-02, VIEW-03
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `tlc-spec-driven`
+
+**Done when**:
+
+- [ ] Each rendered connection has a visible arrowhead at the target end.
+- [ ] Dragging a connection handle to another card emits the source and target IDs.
+- [ ] The controller creates the requested directed connection and refreshes the scene.
+- [ ] Build gate passes: `python -m compileall src`.
+
+**Tests**: none
+**Gate**: build
+**Commit**: `feat(timeline-editor): add direct connection dragging`
+
+### T10: Add resizable card memberships
+
+**What**: Store membership dimensions in the model and JSON format, then add a lower-right resize handle that changes only the selected membership size.
+**Where**: `src/time_spock/model.py`, `src/time_spock/storage.py`, `src/time_spock/ui/scene.py`, `tests/test_model.py`, `tests/test_storage.py`
+**Depends on**: T9
+**Reuses**: Membership positions, ProjectStore round-trip validation, and CardItem painting.
+**Requirement**: VIEW-04, VIEW-05
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `tlc-spec-driven`
+
+**Done when**:
+
+- [ ] A resize gesture changes width and height without changing x and y.
+- [ ] Width and height are independent for memberships of a shared card.
+- [ ] JSON round-trip preserves membership dimensions.
+- [ ] `tests/test_model.py` and `tests/test_storage.py` cover the new dimension behavior and edge cases.
+- [ ] Full gate passes: `python -m pytest; python -m compileall src`.
+
+**Tests**: unit/integration
+**Gate**: full
+**Commit**: `feat(timeline-editor): add resizable card memberships`
+
 ## Phase Execution Map
 
 ```text
-Phase 1 -> Phase 2 -> Phase 3
+Phase 1 -> Phase 2 -> Phase 3 -> Phase 4
 
 Phase 1: T1
 Phase 2: T1 -> T2 -> T3
 Phase 3: T3 -> T4 -> T5 -> T6 -> T7
+Phase 4: T5 -> T8 -> T9 -> T10
 ```
 
 ## Diagram-Definition Cross-Check
@@ -242,6 +315,9 @@ Phase 3: T3 -> T4 -> T5 -> T6 -> T7
 | T5 | T4 | T4 -> T5 | OK |
 | T6 | T5 | T5 -> T6 | OK |
 | T7 | T6 | T6 -> T7 | OK |
+| T8 | T5 | T5 -> T8 | OK |
+| T9 | T8 | T8 -> T9 | OK |
+| T10 | T9 | T9 -> T10 | OK |
 
 ## Test Co-location Validation
 
@@ -254,6 +330,9 @@ Phase 3: T3 -> T4 -> T5 -> T6 -> T7
 | T5 | Desktop UI | manual | none | OK: manual acceptance is consolidated in T7 |
 | T6 | Entry point | none | none | OK |
 | T7 | Desktop UI | manual | manual | OK |
+| T8 | Domain/UI | unit | unit | OK |
+| T9 | Desktop UI | none | none | OK |
+| T10 | Domain/repository/UI | unit/integration | unit/integration | OK |
 
 ## Task Granularity Check
 
@@ -266,5 +345,8 @@ Phase 3: T3 -> T4 -> T5 -> T6 -> T7
 | T5 | One window/controller component | Granular |
 | T6 | One application entry point | Granular |
 | T7 | One manual acceptance artifact | Granular |
+| T8 | One placement behavior | Granular |
+| T9 | One connection interaction | Granular |
+| T10 | One resize and persistence behavior | Granular |
 
 **Task validation verdict**: all tasks are atomic, dependencies are backward and diagram-matched, and test fields match the coverage matrix.

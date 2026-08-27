@@ -103,6 +103,20 @@ Story planning needs a visual way to represent events, branches, and relationshi
 
 **Independent Test**: Build a project with shared cards, branches, custom colors, and moved positions, save it, reopen it, and compare the reconstructed state.
 
+### P1: Refine Visual Editing * MVP
+
+**User Story**: As a story planner, I want clear connections, predictable card placement, and resizable cards so that the visual story remains readable while I edit it.
+
+**Why P1**: These behaviors are required for the editor to communicate the story reliably during normal use.
+
+**Acceptance Criteria**:
+
+1. WHEN the user creates a card THEN the system SHALL place it at a position that does not fully overlap any existing card in the same timeline. <!-- VIEW-01 -->
+2. WHEN a connection is displayed THEN the system SHALL render a visible line from source to target with an arrowhead indicating the target direction. <!-- VIEW-02 -->
+3. WHEN the user drags the connection handle of a card to another card THEN the system SHALL create a directed connection from the source card to the target card. <!-- VIEW-03 -->
+4. WHEN the user drags a card resize handle THEN the system SHALL update and display that card instance's width and height without changing its position. <!-- VIEW-04 -->
+5. WHEN the user saves a project THEN the system SHALL persist each membership's width and height and restore them when the project is loaded. <!-- VIEW-05 -->
+
 ## Edge Cases
 
 - IF a project contains no cards THEN the system SHALL allow it to be saved and reopened as an empty project.
@@ -135,8 +149,13 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | FILE-03 | P1: Save and Load Projects | Implementing | Verified by T3 |
 | FILE-04 | P1: Save and Load Projects | Implementing | Verified by T3 |
 | FILE-05 | P1: Save and Load Projects | Implementing | Verified by T3 |
+| VIEW-01 | P1: Refine Visual Editing | Tasks | Pending |
+| VIEW-02 | P1: Refine Visual Editing | Tasks | Pending |
+| VIEW-03 | P1: Refine Visual Editing | Tasks | Pending |
+| VIEW-04 | P1: Refine Visual Editing | Tasks | Pending |
+| VIEW-05 | P1: Refine Visual Editing | Tasks | Pending |
 
-**Coverage:** 22 total, 0 mapped to tasks, 22 pending design.
+**Coverage:** 27 total, 22 verified by prior tasks, 5 pending visual-editing tasks.
 
 ## Success Criteria
 

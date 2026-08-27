@@ -13,10 +13,10 @@
 ## Handoff
 
 - **Feature**: timeline-editor
-- **Phase / Task**: Design complete
-- **Completed**: specification, context, architecture design
-- **In-progress**: none
-- **Next step**: Confirm the design, then break the implementation into atomic tasks.
-- **Blockers**: none
-- **Uncommitted files**: `.specs/STATE.md`, `.specs/features/timeline-editor/spec.md`, `.specs/features/timeline-editor/context.md`, `.specs/features/timeline-editor/design.md`
+- **Phase / Task**: Execute / T7 - manual MVP acceptance
+- **Completed**: T1-T6; 14 automated tests passing; compileall passing
+- **In-progress**: `docs/manual-acceptance.md` - waiting for visual workflow confirmation
+- **Next step**: Run the manual checklist, record its result, then commit T7 and run independent feature validation.
+- **Blockers**: User visual acceptance is required for GUI behavior.
+- **Uncommitted files**: `.specs/STATE.md`, `.specs/features/timeline-editor/spec.md`, `.specs/features/timeline-editor/context.md`, `.specs/features/timeline-editor/design.md`, `docs/manual-acceptance.md`
 - **Branch**: main

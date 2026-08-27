@@ -30,6 +30,14 @@ The MVP is a local desktop editor for cards, directed connections, multiple simu
 - Timelines organize visual perspectives or parallel paths.
 - Card positions are freely editable in two dimensions.
 - Position communicates visual order; the application does not enforce chronology or validate ordering.
+- New cards must be placed without fully overlapping an existing card in their initial timeline.
+- Card size is editable per timeline membership and is saved with that membership.
+
+### Visual editing
+
+- Connections are displayed as visible lines with arrowheads.
+- A card has a visible connection handle that can be dragged to another card to create a directed connection.
+- A card has a visible resize handle at its lower-right border.
 
 ### Agent's Discretion
 
