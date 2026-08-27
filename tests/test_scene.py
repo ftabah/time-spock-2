@@ -36,3 +36,19 @@ def test_connection_path_ends_on_card_borders_and_tracks_movement(qt_app):
     moved_end = line.path().elementAt(1)
     assert moved_end.x == 400
     assert moved_end.y == 207
+
+
+def test_connection_hit_area_is_wider_than_visible_line(qt_app):
+    project = Project()
+    source = project.add_card("Source")
+    target = project.add_card("Target")
+    timeline = project.add_timeline("Main")
+    project.add_membership(source.id, timeline.id, 40, 60)
+    project.add_membership(target.id, timeline.id, 300, 60)
+    connection = project.add_connection(source.id, target.id)
+    scene = EditorScene()
+    scene.render(project)
+
+    line = scene.connection_items[connection.id]
+
+    assert line.shape().contains(QPointF(260, 145))

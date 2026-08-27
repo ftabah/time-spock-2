@@ -40,6 +40,8 @@ The MVP is a local desktop editor for cards, directed connections, multiple simu
 - A card has a visible resize handle at its lower-right border.
 - Dragging the left mouse button on empty canvas space pans the view.
 - Right-clicking a connection offers an action to invert its direction.
+- Connections have a larger invisible hit area than their visible stroke.
+- Right-clicking a connection also offers an action to remove it.
 
 ### Agent's Discretion
 

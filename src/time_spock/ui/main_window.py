@@ -94,8 +94,14 @@ class MainWindow(QMainWindow):
     def _show_connection_context_menu(self, connection_id: str, scene_position) -> None:
         menu = QMenu(self)
         reverse_action = menu.addAction("Inverter direção da seta")
-        if menu.exec(self.view.mapToGlobal(self.view.mapFromScene(scene_position))) == reverse_action:
+        remove_action = menu.addAction("Remover conexão")
+        selected = menu.exec(self.view.mapToGlobal(self.view.mapFromScene(scene_position)))
+        if selected == reverse_action:
             self.project.reverse_connection(connection_id)
+            self._mark_dirty()
+            self._render()
+        elif selected == remove_action:
+            self.project.remove_connection(connection_id)
             self._mark_dirty()
             self._render()
 

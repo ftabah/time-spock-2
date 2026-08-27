@@ -118,6 +118,8 @@ Story planning needs a visual way to represent events, branches, and relationshi
 4. WHEN the user saves a project THEN the system SHALL persist each membership's width and height and restore them when the project is loaded. <!-- VIEW-05 -->
 5. WHEN the user drags the left mouse button on empty canvas space THEN the system SHALL pan the visible canvas without moving any card. <!-- VIEW-06 -->
 6. WHEN the user chooses the reverse-direction action for a connection THEN the system SHALL swap its source and target while preserving all cards and positions. <!-- VIEW-07 -->
+7. WHEN the user clicks near a visible connection THEN the system SHALL select that connection within an interactive area wider than its visual stroke. <!-- VIEW-08 -->
+8. WHEN the user chooses the remove-connection action from a connection context menu THEN the system SHALL remove only that connection and preserve both endpoint cards. <!-- VIEW-09 -->
 
 ## Edge Cases
 
@@ -157,8 +159,10 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | VIEW-05 | P1: Refine Visual Editing | Implementing | Verified by T10 |
 | VIEW-06 | P1: Refine Visual Editing | Implementing | Verified by T12 |
 | VIEW-07 | P1: Refine Visual Editing | Implementing | Verified by T12 |
+| VIEW-08 | P1: Refine Visual Editing | Implementing | Verified by T13 |
+| VIEW-09 | P1: Refine Visual Editing | Implementing | Verified by T13 |
 
-**Coverage:** 29 total, 29 verified by implementation tasks; manual UI acceptance remains pending.
+**Coverage:** 31 total, 31 verified by implementation tasks; manual UI acceptance remains pending.
 
 ## Success Criteria
 

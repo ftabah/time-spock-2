@@ -3,7 +3,7 @@ from __future__ import annotations
 import math
 
 from PySide6.QtCore import QPointF, QRectF, Qt, Signal
-from PySide6.QtGui import QBrush, QColor, QPainter, QPainterPath, QPen, QPolygonF
+from PySide6.QtGui import QBrush, QColor, QPainter, QPainterPath, QPainterPathStroker, QPen, QPolygonF
 from PySide6.QtWidgets import QGraphicsItem, QGraphicsObject, QGraphicsPathItem, QGraphicsScene
 
 from time_spock.model import Card, Connection, Membership, Project, Timeline
@@ -112,6 +112,11 @@ class ConnectionItem(QGraphicsPathItem):
         path.lineTo(end)
         self.setPath(path)
 
+    def shape(self) -> QPainterPath:
+        stroker = QPainterPathStroker()
+        stroker.setWidth(16)
+        return stroker.createStroke(self.path())
+
     @staticmethod
     def _border_point(rect: QRectF, toward: QPointF) -> QPointF:
         center = rect.center()
@@ -203,6 +208,7 @@ class EditorScene(QGraphicsScene):
     def contextMenuEvent(self, event) -> None:
         item = self.itemAt(event.scenePos(), self.views()[0].transform()) if self.views() else None
         if isinstance(item, ConnectionItem):
+            item.setSelected(True)
             self.connection_context_requested.emit(item.connection_id, event.scenePos())
             event.accept()
             return

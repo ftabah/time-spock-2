@@ -272,6 +272,31 @@ T3 -> T4 -> T5 -> T6 -> T7
 **Gate**: full
 **Commit**: `feat(timeline-editor): add canvas pan and reverse connections`
 
+### T13: Improve connection selection and removal
+
+**What**: Expand the interactive hit area of connection lines and add removal to their context menu.
+**Where**: `src/time_spock/ui/scene.py`, `src/time_spock/ui/main_window.py`, `tests/test_scene.py`, `tests/test_model.py`
+**Depends on**: T12
+**Reuses**: `QPainterPathStroker`, `ConnectionItem` selection, context routing, and `Project.remove_connection`.
+**Requirement**: VIEW-08, VIEW-09
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `tlc-spec-driven`
+
+**Done when**:
+
+- [x] Clicking near a connection selects it without changing its visible stroke width.
+- [x] The connection context menu offers direction reversal and removal.
+- [x] Removing a connection preserves both endpoint cards.
+- [x] Tests cover the expanded hit area.
+- [x] Full gate passes: `python -m pytest; python -m compileall src`.
+
+**Tests**: unit
+**Gate**: full
+**Commit**: `fix(timeline-editor): improve connection selection and removal`
+
 ### T8: Prevent initial card overlap
 
 **What**: Choose a free default position when adding a card to a timeline and preserve the existing position behavior for moved cards.
@@ -351,7 +376,7 @@ Phase 1 -> Phase 2 -> Phase 3 -> Phase 4
 Phase 1: T1
 Phase 2: T1 -> T2 -> T3
 Phase 3: T3 -> T4 -> T5 -> T6 -> T7
-Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12
+Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12 -> T13
 ```
 
 ## Diagram-Definition Cross-Check
@@ -370,6 +395,7 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12
 | T10 | T9 | T9 -> T10 | OK |
 | T11 | T10 | T10 -> T11 | OK |
 | T12 | T11 | T11 -> T12 | OK |
+| T13 | T12 | T12 -> T13 | OK |
 
 ## Test Co-location Validation
 
@@ -387,6 +413,7 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12
 | T10 | Domain/repository/UI | unit/integration | unit/integration | OK |
 | T11 | Domain/repository/UI | unit/integration | unit/integration | OK |
 | T12 | Domain/UI | unit | unit | OK |
+| T13 | Domain/UI | unit | unit | OK |
 
 ## Task Granularity Check
 
@@ -404,5 +431,6 @@ Phase 4: T5 -> T8 -> T9 -> T10 -> T11 -> T12
 | T10 | One resize and persistence behavior | Granular |
 | T11 | One coordinate and connection-path correction | Granular |
 | T12 | One canvas navigation and connection-direction behavior | Granular |
+| T13 | One connection selection and removal behavior | Granular |
 
 **Task validation verdict**: all tasks are atomic, dependencies are backward and diagram-matched, and test fields match the coverage matrix.
