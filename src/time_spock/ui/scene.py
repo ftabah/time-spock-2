@@ -19,7 +19,13 @@ class CardItem(QGraphicsObject):
     connection_requested = Signal(str, str)
     resized = Signal(str, str, float, float)
 
-    def __init__(self, card: Card, membership: Membership, parent: QGraphicsItem | None = None) -> None:
+    def __init__(
+        self,
+        card: Card,
+        membership: Membership,
+        timeline_offset: float = 0,
+        parent: QGraphicsItem | None = None,
+    ) -> None:
         super().__init__(parent)
         self.card_id = card.id
         self.timeline_id = membership.timeline_id
@@ -28,10 +34,12 @@ class CardItem(QGraphicsObject):
         self.resize_dragging = False
         self.width = membership.width
         self.height = membership.height
-        self.setPos(membership.x, membership.y)
+        self.timeline_offset = timeline_offset
+        self.setPos(membership.x, membership.y + timeline_offset)
         self.setFlags(
             QGraphicsItem.GraphicsItemFlag.ItemIsMovable
             | QGraphicsItem.GraphicsItemFlag.ItemIsSelectable
+            | QGraphicsItem.GraphicsItemFlag.ItemSendsGeometryChanges
         )
 
     def boundingRect(self) -> QRectF:
@@ -56,7 +64,7 @@ class CardItem(QGraphicsObject):
     def itemChange(self, change, value):
         if change == QGraphicsItem.GraphicsItemChange.ItemPositionHasChanged:
             position = value
-            self.moved.emit(self.card_id, self.timeline_id, position.x(), position.y())
+            self.moved.emit(self.card_id, self.timeline_id, position.x(), position.y() - self.timeline_offset)
         return super().itemChange(change, value)
 
     def mousePressEvent(self, event) -> None:
@@ -110,16 +118,31 @@ class ConnectionItem(QGraphicsPathItem):
         self.update_path()
 
     def update_path(self) -> None:
-        start = self.source.pos() + self.source.boundingRect().center()
-        end = self.target.pos() + self.target.boundingRect().center()
+        start_center = self.source.sceneBoundingRect().center()
+        end_center = self.target.sceneBoundingRect().center()
+        start = self._border_point(self.source.sceneBoundingRect(), end_center)
+        end = self._border_point(self.target.sceneBoundingRect(), start_center)
         path = QPainterPath(start)
         path.lineTo(end)
         self.setPath(path)
 
+    @staticmethod
+    def _border_point(rect: QRectF, toward: QPointF) -> QPointF:
+        center = rect.center()
+        direction = toward - center
+        if direction.isNull():
+            return center
+        scale_x = rect.width() / (2 * abs(direction.x())) if direction.x() else float("inf")
+        scale_y = rect.height() / (2 * abs(direction.y())) if direction.y() else float("inf")
+        scale = min(scale_x, scale_y)
+        return center + direction * scale
+
     def paint(self, painter: QPainter, option, widget=None) -> None:
         super().paint(painter, option, widget)
-        start = self.source.pos() + self.source.boundingRect().center()
-        end = self.target.pos() + self.target.boundingRect().center()
+        start_center = self.source.sceneBoundingRect().center()
+        end_center = self.target.sceneBoundingRect().center()
+        start = self._border_point(self.source.sceneBoundingRect(), end_center)
+        end = self._border_point(self.target.sceneBoundingRect(), start_center)
         angle = math.atan2(end.y() - start.y(), end.x() - start.x())
         arrow_size = 10
         points = QPolygonF(
@@ -166,15 +189,7 @@ class EditorScene(QGraphicsScene):
         self.addRect(0, y_offset, 1600, TIMELINE_HEIGHT, QPen(QColor("#b7c4c9")))
         for membership in self._memberships_for(timeline.id):
             card = self.project.cards[membership.card_id]
-            adjusted = Membership(
-                card.id,
-                timeline.id,
-                membership.x,
-                membership.y + y_offset + 28,
-                membership.width,
-                membership.height,
-            )
-            item = CardItem(card, adjusted)
+            item = CardItem(card, membership, y_offset + 28)
             item.moved.connect(self.card_moved)
             item.moved.connect(self._refresh_connections)
             item.connection_requested.connect(self.connection_requested)

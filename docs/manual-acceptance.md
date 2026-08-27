@@ -14,7 +14,9 @@ python -m time_spock
 - [ ] Add a card with a title, description, and custom color.
 - [ ] Add another card and move both cards to different positions.
 - [ ] Select two cards and create a directed connection.
+- [ ] Verify connecting cards does not change either card's position.
 - [ ] Verify the connection line is visible and has an arrowhead at the target card.
+- [ ] Move either connected card and verify the line follows it while staying attached to both borders.
 - [ ] Drag the connection handle on one card to another card and verify a directed connection is created.
 - [ ] Create a branch from one card to two target cards.
 - [ ] Drag the lower-right resize handle of a card and verify its size changes while its position remains fixed.

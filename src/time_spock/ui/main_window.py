@@ -63,7 +63,7 @@ class MainWindow(QMainWindow):
         self.scene.render(self.project)
 
     def _on_card_moved(self, card_id: str, timeline_id: str, x: float, y: float) -> None:
-        self.project.update_membership_position(card_id, timeline_id, x, y - 28)
+        self.project.update_membership_position(card_id, timeline_id, x, y)
         self._mark_dirty()
 
     def _on_connection_requested(self, source_id: str, target_id: str) -> None:

@@ -221,6 +221,32 @@ T3 -> T4 -> T5 -> T6 -> T7
 **Gate**: build
 **Commit**: `test(timeline-editor): add manual mvp acceptance checklist`
 
+### T11: Preserve positions and track connection endpoints
+
+**What**: Keep membership coordinates local to their timeline and recalculate connection paths from card borders whenever either endpoint moves.
+**Where**: `src/time_spock/ui/scene.py`, `src/time_spock/ui/main_window.py`, `tests/test_scene.py`
+**Depends on**: T10
+**Reuses**: Membership coordinates, CardItem geometry signals, and ConnectionItem path rendering.
+**Requirement**: VIEW-01, VIEW-02, CARD-03, FILE-02
+
+**Tools**:
+
+- MCP: NONE
+- Skill: `tlc-spec-driven`
+
+**Done when**:
+
+- [x] Connecting cards does not change either membership position.
+- [x] Moving either endpoint updates the connection path.
+- [x] Connection paths start and end on card borders, not centers.
+- [x] Save/load preserves local membership positions across multiple timelines.
+- [x] `tests/test_scene.py` covers border endpoints and path movement.
+- [x] Full gate passes: `python -m pytest; python -m compileall src`.
+
+**Tests**: unit/integration
+**Gate**: full
+**Commit**: `fix(timeline-editor): preserve card positions and connection paths`
+
 ### T8: Prevent initial card overlap
 
 **What**: Choose a free default position when adding a card to a timeline and preserve the existing position behavior for moved cards.
@@ -301,7 +327,7 @@ Phase 1 -> Phase 2 -> Phase 3 -> Phase 4
 Phase 1: T1
 Phase 2: T1 -> T2 -> T3
 Phase 3: T3 -> T4 -> T5 -> T6 -> T7
-Phase 4: T5 -> T8 -> T9 -> T10
+Phase 4: T5 -> T8 -> T9 -> T10 -> T11
 ```
 
 ## Diagram-Definition Cross-Check
@@ -318,6 +344,7 @@ Phase 4: T5 -> T8 -> T9 -> T10
 | T8 | T5 | T5 -> T8 | OK |
 | T9 | T8 | T8 -> T9 | OK |
 | T10 | T9 | T9 -> T10 | OK |
+| T11 | T10 | T10 -> T11 | OK |
 
 ## Test Co-location Validation
 
@@ -333,6 +360,7 @@ Phase 4: T5 -> T8 -> T9 -> T10
 | T8 | Domain/UI | unit | unit | OK |
 | T9 | Desktop UI | none | none | OK |
 | T10 | Domain/repository/UI | unit/integration | unit/integration | OK |
+| T11 | Domain/repository/UI | unit/integration | unit/integration | OK |
 
 ## Task Granularity Check
 
@@ -348,5 +376,6 @@ Phase 4: T5 -> T8 -> T9 -> T10
 | T8 | One placement behavior | Granular |
 | T9 | One connection interaction | Granular |
 | T10 | One resize and persistence behavior | Granular |
+| T11 | One coordinate and connection-path correction | Granular |
 
 **Task validation verdict**: all tasks are atomic, dependencies are backward and diagram-matched, and test fields match the coverage matrix.
