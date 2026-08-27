@@ -89,6 +89,23 @@ class Project:
         self.memberships.append(membership)
         return membership
 
+    def next_card_position(self, timeline_id: str, width: float = 180, height: float = 100) -> tuple[float, float]:
+        self._require_timeline(timeline_id)
+        existing = [membership for membership in self.memberships if membership.timeline_id == timeline_id]
+        for row in range(20):
+            for column in range(8):
+                candidate_x = 40 + column * (width + 20)
+                candidate_y = 60 + row * (height + 20)
+                if all(
+                    candidate_x + width <= membership.x
+                    or membership.x + width <= candidate_x
+                    or candidate_y + height <= membership.y
+                    or membership.y + height <= candidate_y
+                    for membership in existing
+                ):
+                    return candidate_x, candidate_y
+        return 40, 60 + len(existing) * (height + 20)
+
     def remove_membership(self, card_id: str, timeline_id: str) -> None:
         self.memberships = [
             membership

@@ -149,7 +149,7 @@ Story planning needs a visual way to represent events, branches, and relationshi
 | FILE-03 | P1: Save and Load Projects | Implementing | Verified by T3 |
 | FILE-04 | P1: Save and Load Projects | Implementing | Verified by T3 |
 | FILE-05 | P1: Save and Load Projects | Implementing | Verified by T3 |
-| VIEW-01 | P1: Refine Visual Editing | Tasks | Pending |
+| VIEW-01 | P1: Refine Visual Editing | Implementing | Verified by T8 |
 | VIEW-02 | P1: Refine Visual Editing | Tasks | Pending |
 | VIEW-03 | P1: Refine Visual Editing | Tasks | Pending |
 | VIEW-04 | P1: Refine Visual Editing | Tasks | Pending |

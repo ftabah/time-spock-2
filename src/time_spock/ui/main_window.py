@@ -149,7 +149,8 @@ class MainWindow(QMainWindow):
         timeline = next(iter(self.project.timelines.values()), None)
         if timeline is None:
             timeline = self.project.add_timeline("Main")
-        self.project.add_membership(card.id, timeline.id, 40, 60)
+        x, y = self.project.next_card_position(timeline.id)
+        self.project.add_membership(card.id, timeline.id, x, y)
         self._mark_dirty()
         self._render()
 

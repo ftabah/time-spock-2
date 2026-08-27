@@ -58,6 +58,20 @@ def test_membership_position_is_independent_per_timeline():
     assert len(project.cards) == 1
 
 
+def test_next_card_position_does_not_fully_overlap_existing_cards():
+    project = Project()
+    timeline = project.add_timeline("Main")
+    first = project.add_card("First")
+    second = project.add_card("Second")
+    project.add_membership(first.id, timeline.id, 40, 60)
+
+    x, y = project.next_card_position(timeline.id)
+    project.add_membership(second.id, timeline.id, x, y)
+
+    assert (x, y) != (40, 60)
+    assert project.memberships[1].card_id == second.id
+
+
 def test_connections_preserve_direction_and_allow_branching():
     project = Project()
     source = project.add_card("Source")

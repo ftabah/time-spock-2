@@ -236,9 +236,9 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] A newly created card does not fully overlap an existing card in its timeline.
-- [ ] Existing card positions remain unchanged when a new card is created.
-- [ ] Quick gate passes: `python -m pytest`.
+- [x] A newly created card does not fully overlap an existing card in its timeline.
+- [x] Existing card positions remain unchanged when a new card is created.
+- [x] Quick gate passes: `python -m pytest`.
 
 **Tests**: unit
 **Gate**: quick
