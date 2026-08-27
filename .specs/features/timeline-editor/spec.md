@@ -114,22 +114,22 @@ Story planning needs a visual way to represent events, branches, and relationshi
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| CARD-01 | P1: Build and Arrange Story Cards | Design | Pending |
-| CARD-02 | P1: Build and Arrange Story Cards | Design | Pending |
-| CARD-03 | P1: Build and Arrange Story Cards | Design | Pending |
-| CARD-04 | P1: Build and Arrange Story Cards | Design | Pending |
-| CARD-05 | P1: Build and Arrange Story Cards | Design | Pending |
-| CARD-06 | P1: Build and Arrange Story Cards | Design | Pending |
-| LINK-01 | P1: Represent Branching Relationships | Design | Pending |
-| LINK-02 | P1: Represent Branching Relationships | Design | Pending |
-| LINK-03 | P1: Represent Branching Relationships | Design | Pending |
-| LINK-04 | P1: Represent Branching Relationships | Design | Pending |
+| CARD-01 | P1: Build and Arrange Story Cards | Implementing | Verified by T2 |
+| CARD-02 | P1: Build and Arrange Story Cards | Implementing | Verified by T2 |
+| CARD-03 | P1: Build and Arrange Story Cards | Implementing | Verified by T2 |
+| CARD-04 | P1: Build and Arrange Story Cards | Implementing | Verified by T2 |
+| CARD-05 | P1: Build and Arrange Story Cards | Implementing | Verified by T2 |
+| CARD-06 | P1: Build and Arrange Story Cards | Implementing | Verified by T2 |
+| LINK-01 | P1: Represent Branching Relationships | Implementing | Verified by T2 |
+| LINK-02 | P1: Represent Branching Relationships | Implementing | Verified by T2 |
+| LINK-03 | P1: Represent Branching Relationships | Implementing | Verified by T2 |
+| LINK-04 | P1: Represent Branching Relationships | Implementing | Verified by T2 |
 | LINK-05 | P1: Represent Branching Relationships | Design | Pending |
-| LANE-01 | P1: Work With Multiple Timelines | Design | Pending |
+| LANE-01 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |
 | LANE-02 | P1: Work With Multiple Timelines | Design | Pending |
-| LANE-03 | P1: Work With Multiple Timelines | Design | Pending |
-| LANE-04 | P1: Work With Multiple Timelines | Design | Pending |
-| LANE-05 | P1: Work With Multiple Timelines | Design | Pending |
+| LANE-03 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |
+| LANE-04 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |
+| LANE-05 | P1: Work With Multiple Timelines | Implementing | Verified by T2 |
 | FILE-01 | P1: Save and Load Projects | Design | Pending |
 | FILE-02 | P1: Save and Load Projects | Design | Pending |
 | FILE-03 | P1: Save and Load Projects | Design | Pending |

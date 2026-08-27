@@ -90,11 +90,11 @@ T3 -> T4 -> T5 -> T6 -> T7
 
 **Done when**:
 
-- [ ] Cards, timelines, memberships, and connections have stable identifiers and serializable fields.
-- [ ] Card title validation, directed branching, shared memberships, and connection validation match the specification.
-- [ ] Card deletion removes only related memberships and connections.
-- [ ] `tests/test_model.py` covers every applicable model acceptance criterion and listed model edge case.
-- [ ] Quick gate passes: `python -m pytest`.
+- [x] Cards, timelines, memberships, and connections have stable identifiers and serializable fields.
+- [x] Card title validation, directed branching, shared memberships, and connection validation match the specification.
+- [x] Card deletion removes only related memberships and connections.
+- [x] `tests/test_model.py` covers every applicable model acceptance criterion and listed model edge case.
+- [x] Quick gate passes: `python -m pytest`.
 
 **Tests**: unit
 **Gate**: quick
